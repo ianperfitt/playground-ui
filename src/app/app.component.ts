@@ -19,11 +19,8 @@ export class AppComponent implements OnInit{
     this.logger.log('Fetching playgroundServiceText via playgroundService !');
     this.playgroundService.getPlaygroundServiceText()
       .subscribe({
-        next: (data) => {
+        next: (data: string) => {
           this.playgroundServiceText = data;
-        },
-        error:  (err) => {
-          // this.logger.error(err);
         }
     });
   }

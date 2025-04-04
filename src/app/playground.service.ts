@@ -1,7 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, Observable, take, tap, throwError } from 'rxjs';
 import { Logger } from './logger.service';
+import { ApiUrls } from './url-constants';
+import { environment } from './../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -24,15 +26,11 @@ export class PlaygroundService {
         `body was: ${error.error}`);
     }
     // Return an observable with a user-facing error message
-    return throwError(
-      'Something bad happened; please try again later.');
+    return throwError(() => new Error('test'));
   }
 
-  getPlaygroundServiceText() : Observable<string> {
-    return this.http.get<string>('http://localhost:8080/playground-service"')
-    .pipe(
-     catchError(this.handleError)
-    );
+  getPlaygroundServiceText() : Observable<any> {
+    return this.http.get(environment.apiUrl + ApiUrls.playgroundService, {responseType: 'text'});
   }
 }
  
